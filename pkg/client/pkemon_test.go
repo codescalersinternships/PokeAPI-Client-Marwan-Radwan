@@ -43,7 +43,9 @@ func TestGetPokeByName(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(tt.mockStatusCode)
-				w.Write([]byte(tt.mockResponse))
+				if _, err := w.Write([]byte(tt.mockResponse)); err != nil {
+					t.Errorf("failed to write mock response: %v", err)
+				}
 			}))
 			defer server.Close()
 
@@ -97,7 +99,9 @@ func TestGetAllPokemon(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(tt.mockStatusCode)
-				w.Write([]byte(tt.mockResponse))
+				if _, err := w.Write([]byte(tt.mockResponse)); err != nil {
+					t.Errorf("failed to write mock response: %v", err)
+				}
 			}))
 			defer server.Close()
 
